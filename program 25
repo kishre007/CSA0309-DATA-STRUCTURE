@@ -1,0 +1,18 @@
+#include <stdio.h>
+#define INF 999
+int parent[20];
+int find(int i){return parent[i]==i?i:(parent[i]=find(parent[i]));}
+void uni(int i,int j){parent[i]=j;}
+int main(){int n,i,j,u,v,a[20][20],mincost=0,ne=1,min;
+    scanf("%d",&n);
+    for(i=0;i<n;i++)for(j=0;j<n;j++)scanf("%d",&a[i][j]);
+    for(i=0;i<n;i++)parent[i]=i;
+    while(ne<n){min=INF;
+        for(i=0;i<n;i++)for(j=0;j<n;j++)
+            if(a[i][j]<min){min=a[i][j];u=i;v=j;}
+        if(find(u)!=find(v)){printf("%d-%d(%d)\n",u,v,min);
+            mincost+=min;uni(find(u),find(v));ne++;}
+        a[u][v]=a[v][u]=INF;
+    }
+    printf("Cost=%d",mincost);
+}
